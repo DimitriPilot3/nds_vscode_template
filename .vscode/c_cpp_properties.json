@@ -9,7 +9,7 @@
                 "C:\\devkitPro\\libnds\\include\\**",
                 "C:\\devkitPro\\devkitARM\\arm-none-eabi\\include\\**",
                 // auto-generated headers for binary and graphics files
-                "${workspaceFolder}\\build"
+                "${workspaceFolder}\\arm9\\build"
             ],
             "defines": [
                 "_DEBUG",

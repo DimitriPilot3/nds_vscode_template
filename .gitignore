@@ -1,3 +1,8 @@
 /build
 *.elf
 *.nds
+
+/arm9/build
+/arm9/*.elf
+/arm7/build
+/arm7/*.elf
