@@ -10,7 +10,23 @@
             "args": [
                 "DEBUG=1"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "clear": true,
+                "reveal": "always"
+            },
+            "windows": {
+                "command": "C:/devkitPro/msys2/usr/bin/make.exe",
+                "options": {
+                    "env": {
+                        "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/bin"
+                    }
+                }
+            }
         },
         {
             "label": "make release",
@@ -23,6 +39,18 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "presentation": {
+                "clear": true,
+                "reveal": "always"
+            },
+            "windows": {
+                "command": "C:/devkitPro/msys2/usr/bin/make.exe",
+                "options": {
+                    "env": {
+                        "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/bin"
+                    }
+                }
             }
         },
         {
@@ -32,19 +60,29 @@
             "args": [
                 "clean"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "windows": {
+                "command": "C:/devkitPro/msys2/usr/bin/make.exe",
+                "options": {
+                    "env": {
+                        "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/bin"
+                    }
+                }
+            }
         },
         {
             "label": "run",
-            "type": "shell",
-            "isBackground": true,
-            "command": "C:\\desmume\\DeSmuME_0.9.11_x86.exe",
+            "type": "process",
+            "command": "C:/desmume/DeSmuME_0.9.11_x86.exe",
             "args": [
                 "${workspaceFolder}/${workspaceFolderBasename}.nds"
             ],
             "presentation": {
-                "clear": true,
-                "reveal": "always"
+                "reveal": "silent"
             },
             "problemMatcher": []
         },
@@ -54,27 +92,45 @@
             "dependsOn": [
                 "make debug"
             ],
-            "isBackground": false,
-            "command": "C:\\desmume\\DeSmuME_0.9.11_x86_dev+.exe",
+            "command": "C:/desmume/DeSmuME_0.9.11_x86_dev+.exe",
             "args": [
+                // Use the CPU interpreter. In DeSmuME v0.9.11 there is an option
+                // for this, but I couldn't find any equivalent option in v0.9.13
+                // (other than --jit-enable). A workaround would be to change this
+                // setting in desmume.ini ([Emulation] -> CPUmode=0) or via the GUI.
+                "--cpu-mode=0",
                 "--arm9gdb=20000",
                 "${workspaceFolder}/${workspaceFolderBasename}.nds"
             ],
             "presentation": {
-                "clear": true,
-                "reveal": "always"
+                "reveal": "silent"
             },
-            "problemMatcher": []
+            // Since this is a pre-launch task, VSCode expects us to
+            // monitor DeSmuME's console output for problems, which is
+            // proving to be difficult on the windows builds (and I have
+            // no idea what output to expect from the linux builds).
+            // So far I've only managed to attach the console to the 'msys2'
+            // terminal; and even so, it doesn't buffer in real time.
+            // So instead, let's just... not deal with any of that :]
+            "isBackground": false,
+            "problemMatcher": [],
+            "windows": {
+                "command": "start C:/desmume/DeSmuME_0.9.11_x86_dev+.exe",
+            }
         },
         {
             "label": "stop-emulation",
             "type": "shell",
-            "command": "taskkill",
-            "args": [
-                "/FI",
-                "imagename eq DeSmuME*"
-            ],
-            "problemMatcher": []
+            "command": "ps -f | awk '/\\<[D]eSmuME_/ {print $2}' | xargs kill",
+            "args": [],
+            "problemMatcher": [],
+            "windows": {
+                "command": "taskkill.exe",
+                "args": [
+                    "/FI",
+                    "imagename eq DeSmuME_*"
+                ]
+            }
         }
     ]
 }
