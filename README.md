@@ -1,3 +1,7 @@
+**This branch is based on the `nds/hello_world` example provided by devkitPro.**
+
+If you'd like to use the combined arm9+arm7 template instead, please check out the [`combined`](../../tree/combined) branch.
+
 # nds_vscode_template
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
 
